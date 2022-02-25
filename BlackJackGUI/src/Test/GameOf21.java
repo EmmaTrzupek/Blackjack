@@ -47,6 +47,8 @@ import java.lang.Math;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
+
+
 public class GameOf21 {
    // class constants
    private static final Color background=new Color(252, 136, 237);
@@ -69,7 +71,7 @@ public class GameOf21 {
       int gamesWon = 0;
       int money = 100;
       char mainMenuSelection;
-      
+
       do{
          System.out.println();
          System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -137,7 +139,7 @@ public class GameOf21 {
            newNum--;
        newNum+=(c.getCardNumber()/13)*13;
        String formatted = String.format("%03d",newNum+1);
-       Image im=p.loadImage("C:/Users/Emily/Documents/PlayingCardsFullDeckCardGamesAlltheSuitsClipArtClipartCommercial-1/playingcardsplain_"+formatted+".png");
+       Image im=p.loadImage("playingcardsplain_"+formatted+".png");
        return im;
    }
    public static void drawHand(Hand h,boolean IsComputer){
@@ -192,7 +194,7 @@ public class GameOf21 {
          return(b);
       }
       else{
-      Image im2=p.loadImage("C:/Users/Emily/Documents/PlayingCardsFullDeckCardGamesAlltheSuitsClipArtClipartCommercial-1/playingcardsplain_055.png");
+      Image im2=p.loadImage("playingcardsplain_055.png");
       
       g.fillRect(0*SF, 0*SF, 100*SF,30*SF);
       g.drawImage(im2,55*SF, 0, 15*SF, 20*SF, p);
@@ -360,7 +362,7 @@ public class GameOf21 {
    
    public static int computerDraws(int playerTotal, int computerTotal,Hand hand, CardDeck deck){
        drawHand(hand,true);
-      int handTotal = computerTotal;
+      int handTotal = hand.getTotalForGameOf21();
       while(handTotal < 17){
           drawHand(hand,true);
          hand.addCard(getACard(deck));
