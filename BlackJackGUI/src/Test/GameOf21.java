@@ -51,18 +51,28 @@ import java.io.File;
 
 public class GameOf21 {
    // class constants
-   private static final Color background=new Color(252, 136, 237);
+   private static final Color background=new Color(38, 128, 62);
+   private static MouseInterpreter m=new MouseInterpreter();
    private static int SF;
    public static Graphics g;
    public static DrawingPanel p;
-   public static void main(String[] args){
-   
+   public static void main(String[] args){  
+       
 // create a card deck4
       p = new DrawingPanel((int)(1920/1.5),(int)(1080/1.5));
       SF=p.getWidth()/100;
       g = p.getGraphics();
       g.setColor(background);
       g.fillRect(0, 0, p.getWidth(),p.getHeight());
+      p.addMouseListener(m);
+      //buttons for betting
+      
+      
+      m.setButton(new Button(80*SF, 30*SF, 5*SF, 5*SF, "hit",Color.blue));
+      m.setButton(new Button(30*SF, 20*SF, 20*SF, 20*SF, "start",Color.blue));
+      
+      
+      
       CardDeck deck = new CardDeck();
       // Scanner for keyboard 
       Scanner kb = new Scanner(System.in);
@@ -72,21 +82,32 @@ public class GameOf21 {
       int money = 100;
       char mainMenuSelection;
 
-      do{
+  //    do{
          System.out.println();
          System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
          System.out.println("Would you like to play a game?");
-         mainMenuSelection = getMenuSelection("Enter Y for yes, N for no:",
+         /*mainMenuSelection = getMenuSelection("Enter Y for yes, N for no:",
                                                 "YN", kb);
-         if(mainMenuSelection == 'Y'){      
+         if(mainMenuSelection == 'Y'){      */
+         
+         while(true){
+         m.display("start",g);
+         
+         boolean started=false;
+         do{
+             started=m.isClicked("start");
+         }
+         while(!started);
+            g.setColor(background);
              g.fillRect(0*SF, 0*SF, 100*SF,100*SF);
 
             g.fillRect(25*SF, 40*SF, 100*SF,30*SF);
             int bet;
-            do{
+            /*do{
                 System.out.println("How much would you like to bet? you have $"+money);        
                 bet=kb.nextInt();
-            }while(bet>money);
+            }while(bet>money);*/
+            bet=20;
             gamesTotal++;
             Branches bran=playGame(kb, deck);
             if(bran.BranchTotal.size()==1){
@@ -121,16 +142,17 @@ public class GameOf21 {
             }
             
             System.out.println("You now have $"+money);
+           g.fillRect(0, 0, 100*SF,100*SF);
          }
-      } while(mainMenuSelection != 'N');
+         
+   }
+     /* } while(mainMenuSelection != 'N');
       System.out.println("\nYou won " + gamesWon + " games out of " + gamesTotal);
       System.out.println("\nYou have $" + money);
       if(money<50){
         System.out.println("loser");
       }else{
-        System.out.println("Thanks for playing.");
-      }
-   }
+        System.out.println("Thanks for playing.");*/
    public static Image getCardImage(Card c){
        int newNum=c.getFaceValueAsInt();
        if(newNum!=1)
@@ -221,7 +243,7 @@ public class GameOf21 {
         }
       }
       }
-
+       
        drawHand(computerHand, true);
        return(b);
       
@@ -272,7 +294,7 @@ public class GameOf21 {
          }
          else{
             System.out.println("Hit or stand? ");
-            selection = getMenuSelection("Enter H or S:", "HS", kb);
+            selection='H';
          }
          if(selection == 'H'){
             hand.addCard(getACard(deck));

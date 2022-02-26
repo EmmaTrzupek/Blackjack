@@ -4,6 +4,8 @@
  */
 package Test;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 /**
@@ -15,25 +17,42 @@ public class Button {
     int y;
     int width;
     int height;
+    boolean enabled;
+    Color col;
     String text;
-    public Button(int x, int y, int width, int height, String message){
+    public Button(int x, int y, int width, int height, String message,Color c){
         this.x=x;
         this.y=y;
         this.width=width;
         this.height=height;
         this.text=message;
+        col=c;
+        enabled=false;
     }
     public boolean collides(int x, int y){
         if(     x>this.x&&
                 y>this.y&& 
                 x<this.x+this.width&&
-                y<this.y+this.height){
+                y<this.y+this.height&&
+                this.enabled==true
+                ){
             return(true);
         }
         return(false);
     }
-    public void display(Graphics g){
-        g.clearRect(x, y, width, height);
-        g.drawString(text, x+width/5, y+height/5);
+    public void enable(){
+        this.enabled=true;
     }
+    public void disable(){
+        this.enabled=false;
+    }
+    public void display(Graphics g){
+        enable();
+        g.setColor(col);
+        g.fillRect(x, y, width, height);
+        g.setColor(Color.BLACK);
+        g.setFont(new Font(Font.MONOSPACED, 0, 50));
+        g.drawString(text, x+width/5, y+2*height/5);
+    }
+    
 }
